@@ -27,12 +27,41 @@ public class lc1315_SumNodesEvenValuedGrandparent {
         System.out.println(SumEvenGrandparent(root));
 		
 	}
-	
 	static public int SumEvenGrandparent(TreeNode root) {
+		
+		return diver(root,null, null);
+		
+	}
+	
+	public static int diver(TreeNode c, TreeNode p, TreeNode gp) {
+		
+		int out = 0;
+		
+		if(c.left != null) {
+			out += diver(c.left,c,p);
+		}
+		
+		if(c.right != null) {
+			out += diver(c.right,c,p);
+		} 
+		
+		
+		if(gp != null && gp.val % 2 == 0) {
+			
+			out +=c.val;
+		}
+		
+		return out;
+		
+	}
+	
+	
+	static public int SumEvenGrandparent_BFS(TreeNode root) {
         
+		List<TreeNode> evens = new ArrayList<TreeNode>();
 		List<TreeNode> parent;
 		List<TreeNode> child = new ArrayList<TreeNode>();
-		List<TreeNode> evens = new ArrayList<TreeNode>();
+		
 		
 		child.add(root);
 		// BFS find all even nodes
@@ -56,6 +85,7 @@ public class lc1315_SumNodesEvenValuedGrandparent {
 		}
 		
 		// get to grand child node
+		parent = null;
 		child = evens;
 		for(int i = 0; i<2; i++) {
 			parent = child;
@@ -69,9 +99,7 @@ public class lc1315_SumNodesEvenValuedGrandparent {
 					child.add(n.right);
 				}
 				
-				if (n.val % 2 == 0) {
-					evens.add(n);
-				}
+				
 			}
 			
 			
